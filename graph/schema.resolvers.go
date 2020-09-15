@@ -6,12 +6,11 @@ package graph
 import (
 	"context"
 	"fmt"
-	"gofoo/gqlgen-todos/graph/generated"
-	"gofoo/gqlgen-todos/graph/model"
+	"gqlgen-todos/graph/generated"
+	"gqlgen-todos/graph/model"
 	"math/rand"
 )
 
-// CreateTodo Creates a new todo
 func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
 	// TODO Should work with existing user, not just a random ID.
 	done := false
@@ -29,17 +28,14 @@ func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) 
 	return todo, nil
 }
 
-// Todos holds a list of todo items.
 func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
 	return r.todos, nil
 }
 
-// Users is a list of all users.
 func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
 	return r.users, nil
 }
 
-// User is for resolving the user inside a todo by their id.
 func (r *todoResolver) User(ctx context.Context, obj *model.Todo) (*model.User, error) {
 	return &model.User{ID: obj.UserID, Username: "user " + obj.UserID}, nil
 }

@@ -3,7 +3,7 @@ package graph
 //go:generate go run github.com/99designs/gqlgen
 //(So we can run go generate ./...)
 
-import "gofoo/gqlgen-todos/graph/model"
+import "gqlgen-todos/graph/model"
 
 // This file will not be regenerated automatically.
 //

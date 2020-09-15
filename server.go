@@ -1,8 +1,8 @@
 package main
 
 import (
-	"gofoo/gqlgen-todos/graph"
-	"gofoo/gqlgen-todos/graph/generated"
+	"gqlgen-todos/graph"
+	"gqlgen-todos/graph/generated"
 
 	"github.com/gin-gonic/gin"
 
