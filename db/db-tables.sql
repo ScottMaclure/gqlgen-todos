@@ -1,11 +1,9 @@
 -- Table: public.lists
-
 -- DROP TABLE public.lists;
-
 CREATE TABLE public.lists
 (
     id integer NOT NULL DEFAULT nextval('lists_id_seq'::regclass),
-    user_id integer NOT NULL DEFAULT nextval('lists_user_id_seq'::regclass),
+    user_id integer NOT NULL,
     name character varying(256) COLLATE pg_catalog."default" NOT NULL,
     created_at timestamp with time zone NOT NULL DEFAULT now(),
     deleted_at timestamp without time zone,
@@ -15,16 +13,11 @@ CREATE TABLE public.lists
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
-
 TABLESPACE pg_default;
-
-ALTER TABLE public.lists
-    OWNER to todo_admin;
+ALTER TABLE public.lists OWNER to todo_admin;
 
 -- Table: public.todos
-
 -- DROP TABLE public.todos;
-
 CREATE TABLE public.todos
 (
     id integer NOT NULL DEFAULT nextval('todos_id_seq'::regclass),
@@ -38,16 +31,11 @@ CREATE TABLE public.todos
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
-
 TABLESPACE pg_default;
-
-ALTER TABLE public.todos
-    OWNER to todo_admin;
+ALTER TABLE public.todos OWNER to todo_admin;
 
 -- Table: public.users
-
 -- DROP TABLE public.users;
-
 CREATE TABLE public.users
 (
     id integer NOT NULL DEFAULT nextval('users_id_seq'::regclass),
@@ -61,10 +49,6 @@ CREATE TABLE public.users
 )
 
 TABLESPACE pg_default;
-
-ALTER TABLE public.users
-    OWNER to todo_admin;
-
+ALTER TABLE public.users OWNER to todo_admin;
 GRANT ALL ON TABLE public.users TO postgres;
-
 GRANT ALL ON TABLE public.users TO todo_admin;
