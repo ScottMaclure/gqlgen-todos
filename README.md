@@ -65,10 +65,10 @@ Gives you back:
 
 ### Sooner
 
-* Add an "update todo" mutation
 * Create todos table in postgres
 * Fetch todos from postgres
 * Save todo to postgres
+* Add lists support (todo items -> list)
 * Add auth requirement (header)
 * Fetch only current User's todos
 * Add login feature
@@ -84,6 +84,7 @@ Gives you back:
 ## 2020-09-16
 
 * Move gqlgen-todos into separate github project
+* Add an "update todo" mutation (for the in-memory todo list)
 
 ## 2020-09-15
 
