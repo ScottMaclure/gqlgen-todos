@@ -23,7 +23,7 @@ CREATE TABLE public.todos
     id integer NOT NULL DEFAULT nextval('todos_id_seq'::regclass),
     text character varying(256) COLLATE pg_catalog."default" NOT NULL,
     user_id integer NOT NULL,
-    done boolean NOT NULL DEFAULT true,
+    done boolean NOT NULL DEFAULT false,
     created_at timestamp with time zone NOT NULL DEFAULT now(),
     CONSTRAINT todos_pkey PRIMARY KEY (id),
     CONSTRAINT user_id FOREIGN KEY (user_id)
