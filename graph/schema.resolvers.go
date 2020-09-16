@@ -8,23 +8,52 @@ import (
 	"fmt"
 	"gqlgen-todos/graph/generated"
 	"gqlgen-todos/graph/model"
+	"log"
 	"math/rand"
+
+	"github.com/vektah/gqlparser/gqlerror"
 )
 
-func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
+func (r *mutationResolver) UpsertTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
 	// TODO Should work with existing user, not just a random ID.
+
 	done := false
 	if input.Done != nil && *input.Done == true {
 		done = true
 	}
 
-	todo := &model.Todo{
-		ID:     fmt.Sprintf("T%d", rand.Int()),
-		UserID: input.UserID, // fix this line
-		Text:   input.Text,
-		Done:   done,
+	// TODO This is clumsy. Can an ORM take care of this for me?
+	todo := &model.Todo{}
+	if input.ID != nil {
+		// User is attempting to update existing todo.
+		found := false
+		for _, v := range r.todos {
+			log.Printf("Checking existing ID=%s with new ID=%s", v.ID, *input.ID)
+			if v.ID == *input.ID {
+				// Existing ID
+				todo = v
+				found = true
+				break
+			}
+		}
+		if !found {
+			// See https://gqlgen.com/reference/errors/
+			msg := "TODO Can't find todo by ID, how best to fail here?"
+			log.Printf(msg)
+			return nil, gqlerror.Errorf(msg)
+		}
+		todo.Text = input.Text
+		todo.Done = done
+		// Do we need to set it back into the slice? Or pass by reference?
+	} else {
+		// New TODO from User
+		todo.UserID = input.UserID               // set user
+		todo.ID = fmt.Sprintf("T%d", rand.Int()) // TODO Leave this to the database autoincrement field.
+		todo.Text = input.Text
+		todo.Done = done
+		r.todos = append(r.todos, todo)
 	}
-	r.todos = append(r.todos, todo)
+
 	return todo, nil
 }
 

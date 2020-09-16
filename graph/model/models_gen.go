@@ -3,9 +3,10 @@
 package model
 
 type NewTodo struct {
-	Text   string `json:"text"`
-	UserID string `json:"userId"`
-	Done   *bool  `json:"done"`
+	ID     *string `json:"id"`
+	Text   string  `json:"text"`
+	UserID string  `json:"userId"`
+	Done   *bool   `json:"done"`
 }
 
 type User struct {

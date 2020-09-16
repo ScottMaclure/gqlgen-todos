@@ -3,6 +3,7 @@ package main
 import (
 	"gqlgen-todos/graph"
 	"gqlgen-todos/graph/generated"
+	"log"
 
 	"github.com/gin-gonic/gin"
 
@@ -30,8 +31,18 @@ func playgroundHandler() gin.HandlerFunc {
 	}
 }
 
+func testMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		log.Printf("testMiddleware example")
+		c.Next()
+	}
+}
+
 func main() {
+	// See https://gin-gonic.com/docs/examples/using-middleware/
 	r := gin.Default()
+
+	r.Use(testMiddleware())
 
 	r.POST("/query", graphqlHandler())                // The API
 	r.GET("/playground", playgroundHandler())         // The playground (not for prod!)

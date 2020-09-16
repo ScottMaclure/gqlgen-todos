@@ -73,11 +73,12 @@ const Button = (buttonState, clickHandler) => uhtml.html`
 const TodoList = (todoList) => {
     if (todoList.state == DATA_STATES.DEFAULT) {
         return uhtml.html`<p>Press the button to load todos.</p>`
-    } else if (todoList.state == DATA_STATES.LOADING) {
-        return uhtml.html`<p>Loading...</p>`
+    // } else if (todoList.state == DATA_STATES.LOADING) {
+        // Disable loading indicator to test out uhtml DOM updates.
+        // return uhtml.html`<p>Loading...</p>`
     } else if (todoList.state == DATA_STATES.ERROR) {
         return uhtml.html`<p>Error loading todo list, check logs.</p>`
-    } else if (todoList.state == DATA_STATES.COMPLETE) {
+    } else if (todoList.state == DATA_STATES.LOADING || todoList.state == DATA_STATES.COMPLETE) {
         if (todoList.todos.length > 0) {
             // TODO Use keyed rendering?
             return uhtml.html`
