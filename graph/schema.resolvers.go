@@ -10,6 +10,7 @@ import (
 	"gqlgen-todos/graph/model"
 	"log"
 	"math/rand"
+	"strconv"
 
 	"github.com/vektah/gqlparser/gqlerror"
 )
@@ -58,6 +59,34 @@ func (r *mutationResolver) UpsertTodo(ctx context.Context, input model.NewTodo) 
 }
 
 func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
+
+	r.ConnectDB(ctx)
+	// fmt.Printf("Todos, db=%v\n", r.db)
+
+	// pgxscan.Select(ctx, r.db, &r.todos, `select * from todos order by created_at asc`)
+
+	r.todos = nil // empty the slice and underlying data to gc
+	rows, err := r.db.Query(ctx, "select id, text, done from todos order by created_at asc")
+	if err != nil {
+		panic(err)
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var id int
+		var text string
+		var done bool
+		err = rows.Scan(&id, &text, &done)
+		if err != nil {
+			panic(err)
+		}
+		fmt.Printf("text=%s, done=%t\n", text, done)
+		r.todos = append(r.todos, &model.Todo{
+			ID:   strconv.Itoa(id),
+			Text: text,
+			Done: done,
+		})
+	}
+
 	return r.todos, nil
 }
 

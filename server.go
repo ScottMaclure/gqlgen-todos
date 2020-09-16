@@ -1,5 +1,8 @@
 package main
 
+// When running:
+// export PORT=8080 PGHOST=localhost PGDATABASE=todo PGUSER=todo_admin PGPASSWORD=secret
+
 import (
 	"gqlgen-todos/graph"
 	"gqlgen-todos/graph/generated"
@@ -42,7 +45,7 @@ func main() {
 	// See https://gin-gonic.com/docs/examples/using-middleware/
 	r := gin.Default()
 
-	r.Use(testMiddleware())
+	// r.Use(testMiddleware())
 
 	r.POST("/query", graphqlHandler())                // The API
 	r.GET("/playground", playgroundHandler())         // The playground (not for prod!)
